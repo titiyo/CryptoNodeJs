@@ -1,0 +1,51 @@
+<% layout(layoutFile) %>
+
+
+<div class="aui-page-panel">
+  <div class="aui-page-panel-inner">
+    <section class="aui-page-panel-content">
+
+    	<h2 style="text-align:center;">Create a new account</h2>
+        <form action="/signUp" method="post" id="signUpForm" class="aui">
+		    <div class="field-group">
+		        <label for="firstName">First Name<span class="aui-icon icon-required">(required)</span></label>
+		        <input class="text medium-field" type="text" id="firstName" name="firstName">
+		    </div>
+		    <div class="field-group">
+		        <label for="lastName">Last Name<span class="aui-icon icon-required">(required)</span></label>
+		        <input class="text medium-field" type="text" id="lastName" name="lastName">
+		    </div>
+		    <div class="field-group">
+		        <label for="username">Username<span class="aui-icon icon-required">(required)</span></label>
+		        <input class="text medium-field" type="text" id="username" name="username">
+		    </div>
+		    <div class="field-group">
+		        <label for="email">Email<span class="aui-icon icon-required">(required)</span></label>
+		        <input class="text medium-field" type="text" id="email" name="email">
+		    </div>
+		    <div class="field-group">
+		        <label for="password">Password<span class="aui-icon icon-required">(required)</span></label>
+		        <input class="text medium-field" type="password" id="password" name="password">
+		    </div>
+
+			<% if (error) { %>
+                <div class="aui-message error">
+                    <p class="title">
+                        <span class="aui-icon icon-error"></span>
+                        <strong>Fields not valide !</strong>
+                    </p>
+                    <p><%= error %></p>
+                </div>
+            <% } %>
+
+		    <div class="buttons-container">
+		        <div class="buttons">
+		            <input class="button submit" type="submit" value="Submit" id="comment-save-button">
+		            <a class="cancel" href="/index">Cancel</a>
+		        </div>
+		    </div>
+		</form>
+    </section>
+  </div>
+</div>
+

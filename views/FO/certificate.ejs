@@ -1,0 +1,58 @@
+<% layout(layoutFile) %>
+<nav class="aui-navgroup aui-navgroup-horizontal">
+    <div class="aui-navgroup-inner">
+        <div class="aui-navgroup-primary">
+            <ul class="aui-nav">
+                <li><a href="/index">Index</a></li>
+                <li><a href="/getkey">Request a key</a></li>
+                <li class="aui-nav-selected"><a href="/getcertificate">Request a certificate</a></li>
+            </ul>
+        </div><!-- .aui-navgroup-primary -->
+    </div><!-- .aui-navgroup-inner -->
+</nav><!-- .aui-navgroup -->
+
+<div class="aui-page-panel">
+  <div class="aui-page-panel-inner">
+    <section class="aui-page-panel-content">
+        <h1>certif page</h1><br/><br/>
+		<div class="key-pair-information">
+			<form action="/createCertificateRequest" method="post" id="createCsrForm" class="aui" enctype="multipart/form-data">
+					
+					<fieldset>
+						<div class="field-group">
+							<label for="clientKey">Client key<span class="aui-icon icon-required"> required</span></label>
+							<input type="file" id="clientKey" name="clientKey" title="clientKey">
+						</div>
+						<div class="field-group">
+							<label for="hashType">Hash type<span class="aui-icon icon-required"> required</span></label>
+							<input class="text" type="text" id="hashType" name="hashType" title="hashType" value="md5">
+						</div>
+						<div class="field-group">
+							<label for="country">Country<span class="aui-icon icon-required"> required</span></label>
+							<input class="text" type="country" id="country" name="country" title="country">
+						</div>
+						<div class="field-group">
+							<label for="organization">Organization<span class="aui-icon icon-required"> required</span></label>
+							<input class="text" type="organization" id="organization" name="organization" title="organization">
+						</div>
+						<div class="field-group">
+							<label for="email">Email address<span class="aui-icon icon-required"> required</span></label>
+							<input class="text" type="email" id="email" name="email" title="email">
+						</div>
+						<div class="field-group">
+							<label for="fileName">File name<span class="aui-icon icon-required"> required</span></label>
+							<input class="text" type="fileName" id="fileName" name="fileName" title="fileName">
+						</div>
+						<div class="field-group">
+							<label for="commonName">Common name<span class="aui-icon icon-required"> required</span></label>
+							<input class="text" type="commonName" id="commonName" name="commonName" title="commonName">
+						</div>
+						<div class="field-group">
+							<input type="submit" value="Send"/>
+						</div>
+					</fieldset>
+			</form>
+		</div>
+    </section>
+  </div>
+</div>

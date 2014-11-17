@@ -1,0 +1,40 @@
+<% layout(layoutFile) %>
+<div class="aui-page-panel margin-fix">
+    <div class="aui-page-panel-inner">
+        <section class="aui-page-panel-content">
+            <h2>Login to MyPKI</h2>
+            <form action="/login" method="post" id="d" class="aui top-label">
+                <fieldset>
+                    <div class="field-group">
+                        <label for="username">Username</label>
+                        <input class="text long-field" type="text" id="username" name="username" title="Username">
+                    </div>
+                    <div class="field-group">
+                        <label for="password">Password</label>
+                        <input class="text long-field" type="password" id="password" name="password" title="Password">
+                    </div>                           
+                    <div class="field-group">
+                        <label for="signUp">Don't have an account ? <a href="/signUpForm" id="signUp">Sign up for one</a></label>
+                    </div>
+                </fieldset>
+                
+
+                <% if (error) { %>
+                    <div class="aui-message error">
+                        <p class="title">
+                            <span class="aui-icon icon-error"></span>
+                            <strong>Connection error !</strong>
+                        </p>
+                        <p><%= error %></p>
+                    </div>
+                <% } %>
+    
+                <div class="buttons-container">
+                    <div class="buttons">
+                        <input class="aui-button aui-button-primary" type="submit" id="submit" name="submit" value="Log in" style="margin-left: 40%;">
+                    </div>
+                </div>
+            </form>    
+        </section>    
+    </div>
+</div>

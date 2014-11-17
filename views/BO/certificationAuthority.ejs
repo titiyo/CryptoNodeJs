@@ -1,0 +1,154 @@
+<% layout(layoutFile) %>
+
+<nav class="aui-navgroup aui-navgroup-horizontal">
+    <div class="aui-navgroup-inner">
+        <div class="aui-navgroup-primary">
+            <ul class="aui-nav">
+                <li><a href="/index">Index</a></li>
+                <li class="aui-nav-selected"><a href="/certificationAuthority">Certification Authority</a></li>
+                <li><a href="/certificate">Certificate</a></li>
+               <!-- <li><a href="/revocation">Revocation list of certificates</a></li>-->
+            </ul>
+        </div><!-- .aui-navgroup-primary -->
+    </div><!-- .aui-navgroup-inner -->
+</nav><!-- .aui-navgroup -->
+
+<div class="aui-page-panel">
+  <div class="aui-page-panel-inner">
+    <section class="aui-page-panel-content">
+        <h1>Certification Authority</h1>
+
+        <button id="dialog-button" class="aui-button">Create a new authority</button>
+
+        <div id="aui-message-bar"></div>
+        
+        <!--    POPUP   -->
+        <div class="key-pair-information">
+            <form action="/createCA" method="post" id="createCaForm" class="aui">
+                <p>Key pair information : </p>
+                <fieldset>
+                    <div class="field-group">
+                        <label for="encrypt">Encrypt</label>
+                        <select class="select" id="encrypt" name="encrypt" title="Encrypt select">
+                            <option>des3</option>
+                            <option>des</option>
+                            <option>idea</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label for="keyFileName">File name<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="text" id="keyFileName" name="keyFileName" title="keyFileName" value="ca">
+                    </div>
+                    <div class="field-group">
+                        <label for="bitSize">Bit size<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="text" id="bitSize" name="bitSize" title="bitSize" value="1024">
+                    </div>
+                    <div class="field-group">
+                        <label for="password">Password<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="password" id="password" name="password" title="password">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="authority-certification-information">
+            <form action="/createCA" method="post" id="createCaForm2" class="aui">
+                <p>Authority of certification information :</p>
+                <fieldset>
+                    <div class="field-group">
+                        <div class="checkbox">
+                            <input class="checkbox" type="checkbox" name="selfSigned" id="selfSigned" onClick="displayingKeyFile()">
+                            <label for="selfSigned">Self-Signed</label>
+                        </div>  
+                    </div>
+                    <div class="field-group keyFileNameDiv">
+                        <label for="keyFile">Key file</label>
+                        <input class="upfile" type="file" id="keyFile" name="keyFile" title="Key File">
+                    </div>
+                    <div class="field-group">
+                        <label for="lifeDays">life in days<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="text" id="lifeDays" name="lifeDays" title="lifeDays">
+                    </div>
+                    <div class="field-group">
+                        <label for="caFileName">CA file name<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="text" id="caFileName" name="caFileName" title="caFileName" value="ca">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <!--  End popup -->
+    </section>
+  </div>
+</div>
+
+<script type="text/javascript">
+    // Note this is a small dialog, so it fits in the Sandbox panel
+    // Standard sizes are 400, 600 and 840 pixels wide
+    var dialog = new AJS.Dialog({
+        width: 600, 
+        height: 500, 
+        id: "createACForm", 
+        closeOnOutsideClick: true
+    });
+
+    // PAGE 0 (first page)
+    // adds header for first page
+    dialog.addHeader("Create a certification authority.");
+
+    // add panel 1
+    dialog.addPanel("Panel 1", '.key-pair-information', "panel-body");
+    //dialog.get("panel:0").setPadding(0);
+
+    // add panel 2 (this will create a menu on the left side for selecting panels within page 0)
+    dialog.addPanel("Panel 2", ".authority-certification-information", "panel-body");
+
+    dialog.addSubmit(
+        "Submit", 
+        function() { 
+            //on click event 
+            var data = $('#createCaForm').serialize() + '&' + $('#createCaForm2').serialize();
+            $.ajax({
+                type: 'POST',
+                url: '/createCA',
+                data: data,
+                success: function(data){
+                    if(data.error){
+                        AJS.messages.error({
+                            title: "Error!",
+                            body: data.error
+                        });
+                    }
+                    if(data.success){
+                        AJS.messages.success({
+                            title: "Success!",
+                            body: data.success
+                        });
+                    }
+                    dialog.hide();
+                },
+            });
+        }
+    );
+    
+    dialog.addLink("Cancel", function (dialog) {
+        dialog.hide();
+    }, "#");
+
+    // Add events to dialog trigger elements
+    AJS.$("#dialog-button").click(function() {
+        // PREPARE FOR DISPLAY
+        // start first page, first panel
+        dialog.gotoPage(0);
+        dialog.gotoPanel(0);
+        dialog.show();
+    });
+    
+    function displayingKeyFile(){
+        if($("#selfSigned")[0].checked){
+            $(".keyFileNameDiv")[0].style.display = 'none';
+        }
+        else{
+            $(".keyFileNameDiv")[0].style.display = 'block';
+        }
+    }
+</script>
+

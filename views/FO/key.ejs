@@ -1,0 +1,38 @@
+<% layout(layoutFile) %>
+<nav class="aui-navgroup aui-navgroup-horizontal">
+    <div class="aui-navgroup-inner">
+        <div class="aui-navgroup-primary">
+            <ul class="aui-nav">
+                <li><a href="/index">Index</a></li>
+                <li class="aui-nav-selected"><a href="/getkey">Request a key</a></li>
+                <li><a href="/getcertificate">Request a certificate</a></li>
+            </ul>
+        </div><!-- .aui-navgroup-primary -->
+    </div><!-- .aui-navgroup-inner -->
+</nav><!-- .aui-navgroup -->
+
+<div class="aui-page-panel">
+  <div class="aui-page-panel-inner">
+    <section class="aui-page-panel-content">
+        <h1>Key page</h1><br/><br/>
+		
+		<div class="key-pair-information">
+			<form action="/createKey" method="post" id="createKeyForm" class="aui">
+				<fieldset>
+					<div class="field-group">
+						<label for="keyFileName">File name<span class="aui-icon icon-required"> required</span></label>
+						<input class="text" type="text" id="keyFileName" name="keyFileName" title="keyFileName" value="ca">
+					</div>
+					<div class="field-group">
+						<label for="bitSize">Bit size<span class="aui-icon icon-required"> required</span></label>
+						<input class="text" type="text" id="bitSize" name="bitSize" title="bitSize" value="1024">
+					</div>
+					<div class="field-group">
+						<input type="submit" value="Send"/>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+    </section>
+  </div>
+</div>

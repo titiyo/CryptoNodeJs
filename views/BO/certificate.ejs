@@ -1,0 +1,110 @@
+<% layout(layoutFile) %>
+
+<nav class="aui-navgroup aui-navgroup-horizontal">
+    <div class="aui-navgroup-inner">
+        <div class="aui-navgroup-primary">
+            <ul class="aui-nav">
+                <li><a href="/index">Index</a></li>
+                <li><a href="/certificationAuthority">Certification Authority</a></li>
+                <li class="aui-nav-selected"><a href="/certificate">Certificate</a></li>
+                <!-- <li><a href="/revocation">Revocation list of certificates</a></li> -->
+            </ul>
+        </div><!-- .aui-navgroup-primary -->
+    </div><!-- .aui-navgroup-inner -->
+</nav><!-- .aui-navgroup -->
+
+<div class="aui-page-panel">
+  <div class="aui-page-panel-inner">
+    <section class="aui-page-panel-content">
+        <h1>Certificate</h1>
+
+        <div id="aui-message-bar"></div>
+
+        <ul>
+            <% for(var i = 0; i < fileNames.length; i++) { %>     
+                
+                <li>
+                    <%= fileNames[i] %> <button class="aui-button" onclick="openPopup('<%= fileNames[i] %>')">Sign</button>
+                </li>
+            <% } %>
+        </ul>
+    </section>
+  </div>
+</div>
+
+<div class="sign-information">
+            <form action="/SignCertificate" method="post" id="SignCertificate" class="aui" enctype="multipart/form-data">
+                <p>Sign information : </p>
+        <!-- openssl x509 -req -days 365 -in cert.csr -CA ca.crt -CAkey ca.key -set_serial 00 -out cert.crt -->
+
+                <fieldset>
+                    <div class="field-group">
+                        <label for="days">Days<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="text" id="days" name="days" title="days">
+                    </div>
+                    <div class="field-group">
+                        <label for="Csr">Csr<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="text" id="Csr" name="Csr" title="Csr">
+                    </div>
+                    <div class="field-group">
+                        <label for="CA">CA<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="file" id="CA" name="CA" title="CA">
+                    </div>
+                    <div class="field-group">
+                        <label for="CAKey">CAKey<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="file" id="CAKey" name="CAKey" title="CAKey">
+                    </div>
+                    <div class="field-group">
+                        <label for="password">Password<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="password" id="password" name="password" title="password">
+                    </div>
+                    <div class="field-group">
+                        <label for="CName">Certificate Name<span class="aui-icon icon-required"> required</span></label>
+                        <input class="text" type="text" id="CName" name="CName" title="CName">
+                    </div>
+                    <div class="field-group">
+                        <input type="submit" value="Send"/>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+<script type="text/javascript">
+    // Note this is a small dialog, so it fits in the Sandbox panel
+    // Standard sizes are 400, 600 and 840 pixels wide
+    var dialog = new AJS.Dialog({
+        width: 600, 
+        height: 500, 
+        id: "SignCertificate", 
+        closeOnOutsideClick: true
+    });
+
+    // PAGE 0 (first page)
+    // adds header for first page
+    dialog.addHeader("Sign a certificate.");
+
+    // add panel 1
+    dialog.addPanel("Panel 1", '.sign-information', "panel-body");
+    //dialog.get("panel:0").setPadding(0);
+
+    dialog.addLink("Cancel", function (dialog) {
+        dialog.hide();
+    }, "#");
+
+    // Add events to dialog trigger elements
+    AJS.$("#dialog-button").click(function() {
+        // PREPARE FOR DISPLAY
+        // start first page, first panel
+        dialog.gotoPage(0);
+        dialog.gotoPanel(0);
+        dialog.show();
+    });
+
+    function openPopup( name){
+        dialog.show();
+
+        $("#Csr")[0].value = name;
+
+    }    
+</script>
+
